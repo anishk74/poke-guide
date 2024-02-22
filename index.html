@@ -61,8 +61,8 @@
                         "Type": data.types.map(obj => obj.type.name).join("/"),
                         "Description": desc,
                         "Abilities": data.abilities.map(obj => obj.ability.name).join(", "),
-                        "Height": data.height,
-                        "Weight": data.weight
+                        "Height": `${data.height/10} m`,
+                        "Weight": `${data.weight/10} kg`
                     }
                     var table = document.createElement('table');
                     for (let key in info) {
