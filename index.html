@@ -22,11 +22,12 @@
 
             // Get the API endpoint from the form
             var poke_id = document.getElementById("poke_id").value;
-            var api_base = "https://pokeapi.co/api/v2";
-            var endpoint = `${api_prefix}/pokemon/${poke_id}`;
+            var api_prefix = "https://pokeapi.co/api/v2";
+            var species_endpoint = `${api_prefix}/pokemon-species/${poke_id}`
+            var pokemon_endpoint = `${api_prefix}/pokemon/${poke_id}`;
 
             var desc = ''
-            fetch(`${api_prefix}/v2/pokemon-species/${pokemonNameOrId}`)
+            fetch(species_endpoint)
                 .then(response =>  response.json())
                 .then(data => {
                     // Extract the description from the response
