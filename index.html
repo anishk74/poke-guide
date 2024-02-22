@@ -12,7 +12,7 @@
         <input type="text" id="poke_id" name="poke_id" required>
         <button type="submit">Submit</button>
     </form>
-
+    <div id="imageContainer"></div>
     <div id="response"></div>
 
     <script>
@@ -29,7 +29,19 @@
                 .then(response => response.json())
                 .then(data => {
                     // Display the API response
-                    document.getElementById("response").innerHTML = JSON.stringify(data, null, 2);
+                    var image_url = data.sprites.other.home.front_default;
+                    var imgElement = document.createElement("img");
+
+                    // Set the src attribute to the URL of the image
+                    imgElement.src = "img_url"; // Replace with your image URL
+
+                    // Set any other attributes if needed (e.g., alt, width, height)
+                    imgElement.alt = "Image of the Pokemon";
+                    imgElement.width = 200; // Set width to 200 pixels
+
+                    // Append the image element to a container in the document
+                    document.getElementById("imageContainer").appendChild(imgElement);
+                    //document.getElementById("response").innerHTML = JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
                     // Handle any errors
