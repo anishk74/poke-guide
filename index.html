@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon - Guide</title>
+</head>
+<body>
+    <h1>Poke Guide</h1>
+    <form id="apiForm">
+        <label for="poke_id">Pokemon ID</label>
+        <input type="text" id="poke_id" name="poke_id" required>
+        <button type="submit">Submit</button>
+    </form>
 
+    <div id="response"></div>
+
+    <script>
+        document.getElementById("apiForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get the API endpoint from the form
+            var poke_id = document.getElementById("poke_id").value;
+            var api_prefix = "<api>;
+            var endpoint = `$api_prefix/id=$poke_id`;
+
+            // Make the API call
+            fetch(endpoint)
+                .then(response => response.json())
+                .then(data => {
+                    // Display the API response
+                    document.getElementById("response").innerHTML = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
