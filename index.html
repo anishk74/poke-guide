@@ -21,8 +21,8 @@
 
             // Get the API endpoint from the form
             var poke_id = document.getElementById("poke_id").value;
-            var api_prefix = "<api>;
-            var endpoint = `$api_prefix/id=$poke_id`;
+            var api_prefix = "https://pokeapi.co/api/v2/pokemon";
+            var endpoint = `${api_prefix}/${poke_id}`;
 
             // Make the API call
             fetch(endpoint)
