@@ -12,7 +12,8 @@
         <input type="text" id="poke_id" name="poke_id" required>
         <button type="submit">Submit</button>
     </form>
-    <div id="imageContainer"></div>
+    <div id="image-container"></div>
+    <div id="table-container"></div>
     <div id="response"></div>
 
     <script>
@@ -21,8 +22,19 @@
 
             // Get the API endpoint from the form
             var poke_id = document.getElementById("poke_id").value;
-            var api_prefix = "https://pokeapi.co/api/v2/pokemon";
-            var endpoint = `${api_prefix}/${poke_id}`;
+            var api_base = "https://pokeapi.co/api/v2";
+            var endpoint = `${api_prefix}/pokemon/${poke_id}`;
+
+            var desc = ''
+            fetch(`${api_prefix}/v2/pokemon-species/${pokemonNameOrId}`)
+                .then(response =>  response.json())
+                .then(data => {
+                    // Extract the description from the response
+                    desc = data.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;        
+                })
+                .catch(error => {
+                        console.error('poekmon-species api call failed!', error);
+                });
 
             // Make the API call
             fetch(endpoint)
@@ -40,12 +52,34 @@
                     imgElement.width = 200; // Set width to 200 pixels
 
                     // Append the image element to a container in the document
-                    document.getElementById("imageContainer").appendChild(imgElement);
+                    imageContainer = document.getElementById("image-container");
+                    imageContainer.innerHTML = ''
+                    imageContainer.appendChild(imgElement);
+
+                    var info = {
+                        "Type": data.types.map(obj => obj.type.name).join("/"),
+                        "Description": desc,
+                        "Abilities": data.abilities.map(obj => obj.ability.name).join(", "),
+                        "Height": data.height,
+                        "Weight": data.weight
+                    }
+                    var table = document.createElement('table');
+                    for (let key in info) {
+                        var row = table.insertRow();
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        cell1.innerHTML = key;
+                        cell2.innerHTML = info[key];
+                    }
+                    var tableContainer = document.getElementById('table-container');
+                    tableContainer.innerHTML = ''; // Clear previous table
+                    tableContainer.appendChild(table);
+
                     //document.getElementById("response").innerHTML = JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
                     // Handle any errors
-                    console.error('Error:', error);
+                    console.error('poekmon api call failed!', error);
                 });
         });
     </script>
